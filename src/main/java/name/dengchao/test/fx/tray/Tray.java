@@ -1,21 +1,18 @@
-package name.dengchao.test.fx;
+package name.dengchao.test.fx.tray;
 
-import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import java.awt.*;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 
 import javax.imageio.ImageIO;
 
-public class TrayTest {
+public class Tray {
 
-    @Test
-    public void testName() throws Exception {
+    public static void createTray() {
         Resource resource = new ClassPathResource("icon.jpg");
         try (InputStream inputStream = resource.getInputStream()) {
             //Check the SystemTray is supported
@@ -29,9 +26,10 @@ public class TrayTest {
             final SystemTray tray = SystemTray.getSystemTray();
 
             // Create a pop-up menu components
-            MenuItem aboutItem = new MenuItem("About");
             CheckboxMenuItem cb1 = new CheckboxMenuItem("Set auto size");
             CheckboxMenuItem cb2 = new CheckboxMenuItem("Set tooltip");
+
+            MenuItem aboutItem = new MenuItem("About");
             Menu displayMenu = new Menu("Display");
             MenuItem errorItem = new MenuItem("Error");
             MenuItem warningItem = new MenuItem("Warning");
@@ -54,40 +52,13 @@ public class TrayTest {
 
             trayIcon.setPopupMenu(popup);
             trayIcon.setImageAutoSize(true);
-
-            trayIcon.addMouseListener(new MouseListener() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    System.out.println("Abbbd");
-                    tray.remove(trayIcon);
-                }
-
-                @Override
-                public void mousePressed(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseReleased(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-
-                }
-            });
-
+            trayIcon.addMouseListener(new TrayEventListener());
             tray.add(trayIcon);
 
         } catch (AWTException e) {
             System.out.println("TrayIcon could not be added.");
+        } catch (IOException e) {
+            System.err.println("Failed to read icon file.");
         }
-        Thread.currentThread().join();
     }
 }

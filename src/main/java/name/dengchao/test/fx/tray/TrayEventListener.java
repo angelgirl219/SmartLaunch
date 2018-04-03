@@ -1,4 +1,4 @@
-package name.dengchao.test.fx.Tray;
+package name.dengchao.test.fx.tray;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;

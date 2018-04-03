@@ -8,7 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
-import name.dengchao.test.fx.Tray.Tray;
+import name.dengchao.test.fx.tray.Tray;
 import name.dengchao.test.fx.hotkey.os.GlobalKeyListener;
 import name.dengchao.test.fx.hotkey.os.VoidDispatchService;
 import name.dengchao.test.fx.utils.Utils;

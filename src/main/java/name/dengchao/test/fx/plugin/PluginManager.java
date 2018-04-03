@@ -95,21 +95,17 @@ public class PluginManager {
                 loadStartMenuItem(file1);
             }
         } else {
-            if (!Utils.isAppFile(file.getName())) {
+            if (!Utils.isLink(file.getName()) || !Utils.isAppFile(file.getName())) {
                 return;
             }
             if (pluginMap.get(file.getName()) != null) {
                 return;
             }
             // TODO distinguish the dir shortcut, open the dir in file explorer directly.
+            String displayName = file.getName().replace(".lnk", "");
+            String pluginName = displayName.toLowerCase().replace(" ", "-");
 
-
-            String name = file.getName().toLowerCase().
-                    replace(".lnk", "").
-                    replace(" ", "_").
-                    replace(".lnk", "");
-
-            String[] chars = name.split("|");
+            String[] chars = pluginName.split("|");
             StringBuilder firstLetter = new StringBuilder();
             StringBuilder fullLetter = new StringBuilder();
             for (String aChar : chars) {
@@ -127,19 +123,19 @@ public class PluginManager {
                 }
             }
 
-            List<String> pluginNames = Lists.newArrayList(name);
-            if (fullLetter.length() != name.length()) {
+            List<String> pluginNames = Lists.newArrayList(pluginName);
+            if (fullLetter.length() != pluginName.length()) {
                 pluginNames.add(firstLetter.toString());
                 pluginNames.add(fullLetter.toString());
             }
-            for (String pluginName : pluginNames) {
+            for (String name : pluginNames) {
                 StartMenu startMenu = new StartMenu();
                 startMenu.setDisplayType(DisplayType.NONE);
-                startMenu.setName(pluginName);
+                startMenu.setName(name);
                 startMenu.setParameters(new String[0]);
                 startMenu.setPath(file.getAbsolutePath());
-                startMenu.setDescription(file.getName());
-                pluginMap.put(pluginName, startMenu);
+                startMenu.setDescription(displayName);
+                pluginMap.put(name, startMenu);
             }
         }
     }

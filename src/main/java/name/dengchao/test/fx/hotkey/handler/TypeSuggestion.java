@@ -20,6 +20,10 @@ import name.dengchao.test.fx.utils.Utils;
 public class TypeSuggestion {
 
     public void suggest(KeyEvent event) {
+        // Prevent false suggestion
+        if (event.getCode() == KeyCode.WINDOWS){
+            return;
+        }
         String input = PublicComponent.getTextField().getText();
         if (event.getCode() == KeyCode.BACK_SPACE && input.length() > 0) {
             input = input.substring(0, input.length() - 1);
